@@ -15,11 +15,11 @@ guidelines.
    code
    apis
    integrations
+   architecture
    monitoring-and-logging
 
 .. todo:: **TODO**
 
-   * [Architecture](architecture.md)
    * [Database](database.md)
    * [Emails](emails.md)
    * [Books](books.md)
