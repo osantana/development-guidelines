@@ -116,6 +116,7 @@ Design
     machines on resources. There are lots of "gotchas" on state names and
     transitions.
 
+
 Specification and Documentation
 -------------------------------
 
@@ -295,8 +296,9 @@ Troubleshooting
 
 Técnicas padronizadas para resolver problemas comuns
 
-* [ ] Usar PUT com o ID gerado no client para resolver problema de duplicação de objetos causada por clique-duplo na webapp.
-* [ ] Gerenciar workflow de processos usando status em uma api de apoio.
+* Usar PUT com o ID gerado no client para resolver problema de duplicação de
+  objetos causada por clique-duplo na webapp.
+* Gerenciar workflow de processos usando status em uma api de apoio.
 
 
 API Design Guidelines
@@ -307,15 +309,17 @@ API Design Guidelines
 * `Microsoft API Guidelines`__
 * `Zalando RESTful API Guidelines`__
 * `PayPal security guidelines and best practices <https://developer.paypal.com/docs/classic/lifecycle/info-security-guidelines/>`_
+* `Interagent / Heroku API Guidelines`__
 
 __ PayPal_
 __ Google_
 __ Microsoft_
 __ Zalando_
-
+__ Heroku_
 
 .. _PayPal: https://github.com/paypal/api-standards
 .. _Google: https://cloud.google.com/apis/design/
 .. _Microsoft: https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md
 .. _Zalando: https://opensource.zalando.com/restful-api-guidelines/
 .. _Robustness_principle: https://en.wikipedia.org/wiki/Robustness_principle
+.. _Heroku: https://github.com/interagent/http-api-design

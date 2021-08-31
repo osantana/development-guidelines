@@ -1,8 +1,8 @@
 Code
 ====
 
-
 Code guidelines and best practices.
+
 
 General advices
 ---------------
@@ -54,15 +54,15 @@ Tests
 * Unit test every function, method and class.
 * Integration tests should assert each part called using mocks or return checks.
 * Avoid using VCR-like mocking system. VCR-like libraries store credentials used
-  for tests in fixture files and it creates a security breach. the  fixtures 
-  created by them are strongly dependent of the API state, making it 
-  hard to update the test in the future.
+  for tests in fixture files and it creates a security breach. The fixtures
+  created by them are strongly dependent of the API state, making it hard to
+  update the test in the future.
 * We don't use test coverage as a metric, but as a way to find use cases not
   tested.
-* Features with multiple layers should test all layers (an API endpoint should
-  have tests in the
-  manager level (focused in the data) and API level (focused in correct HTTP
-  usage)
+* Features with multiple layers should be tested on all layers (an API endpoint
+  should have tests in the manager level (focused in the data) and API level
+  (focused in correct HTTP usage)
+
 
 Configuration
 -------------
@@ -73,11 +73,10 @@ Configuration
 
 * Configuration through environment variables: `12-factor`_ configuration.
 * Avoid different configurations for each environment.
-* Decouple configurations with libraries: prettyconf.
-* Configurations should control only the software behaviour. Business-related
-  configurations must be handled like system's data. This kind of configuration
-  must be stored at database and an administrative interface must be provided
-  to enable business staff users to manage it.
+* Decouple configurations with libraries like prettyconf.
+* Configurations should control only the software behaviour. Business logic
+  configurations must be handled like system data; database-stored and
+  configured through an administrative interface.
 * Configurations that frequently change are good candidates to leave
   configuration files.
 
@@ -132,6 +131,5 @@ Libraries and APIs
 * Manutenção de Changelog atualizado.
 
   * Podemos usar como referência as `Definições do Projeto GNU`_.
-
 
 .. _Definições do Projeto GNU: https://www.gnu.org/prep/standards/html_node/Change-Logs.html

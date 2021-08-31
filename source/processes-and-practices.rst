@@ -21,6 +21,7 @@ rejection).
 
 You can use GEPs to propose technical solutions to common problems.
 
+
 Code Review
 -----------
 
@@ -176,6 +177,9 @@ Continuous Deployment
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. todo:: **TODO**
+
+   procedures for deployment, deployment follow-up, production
+   readyness (monitor, backup, credentials, etc), checks, etc
 
 
 Scheduled Maintenance
