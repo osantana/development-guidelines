@@ -30,8 +30,6 @@ Minimal Dependencies
   RabbitMQ deployment.
 
 
-.. _auditability:
-
 Auditability
 ~~~~~~~~~~~~
 
@@ -40,13 +38,14 @@ Auditability
 * Transactions must be uniquely identified (``transaction_id``)
   through all components of platform.
 * Transaction identifier must be present in all logs (see
-  `logging`_).
+  :ref:`section-logging`).
 * It's important to make a distinction between Transaction ID that relates with
   a business transaction (eg. product approved by moderation) and Request ID
   that relates with a implementation detail (HTTP request).
 
 
-## Microservices (or SOA)
+History about microservices (or SOA)
+------------------------------------
 
 We deploy products and solutions as a bunch of highly specialized and reliable
 services that communicate each other using messages.
@@ -55,10 +54,12 @@ After some time deploying this kind of service we have detected some building
 blocks and patterns for architecture.
 
 
-## Building Blocks
+Building Blocks
+---------------
 
 
-### Message
+Message
+~~~~~~~
 
 Messages are the base building block of our architecture. Every service
 communicate with each other using messages.
@@ -75,7 +76,8 @@ Messages follows a common contract and are serialized as a JSON payload. Our
 current PubSub implementation wrap this messages with metadata.
 
 
-### Component
+Component
+~~~~~~~~~
 
 Component is a service or API that receive, processes and triggers events.
 It's implemented and deployed as software processes.
@@ -89,7 +91,10 @@ It's implemented and deployed as software processes.
    agent component
 
 
-### Topic
+.. _section-topic:
+
+Topic
+~~~~~
 
 Our architecture use topic as a location where components send messages
 (Publishers) that would be listened by other components that subscribes to it
@@ -114,10 +119,11 @@ Topics belongs to the platform, ie, any component can post messages because they
 are public (to the platform) and global.
 
 
-### Queue
+Queue
+~~~~~
 
-Every component that needs to listen for messages published on [topics](#topic)
-must use a queue as a topic subscriber.
+Every component that needs to listen for messages published on topic (see
+:ref:`section-topic`) must use a queue as a topic subscriber.
 
 .. uml::
    :align: center
@@ -140,9 +146,9 @@ must use a queue as a topic subscriber.
    interface topic
    topic -(0)-> component: queue\n
 
-Queues belongs to the component (eg. [service](#service) or [broker](#broker))
-that subscribes a topic. Unlike topics, queues are private and local to the
-component that consume its messages.
+Queues belongs to the component (eg. :ref:`[service` or :ref:`broker`) that
+subscribes a topic. Unlike topics, queues are private and local to the component
+that consume its messages.
 
 It is very common that different components listen to the same topic.
 Assigning one queue to each component and knowing that each queue receives a
@@ -150,7 +156,8 @@ copy of the published message we can guarantee that one component won't process
 other components messages.
 
 
-### Persistence
+Persistence
+~~~~~~~~~~~
 
 Persistence is the location where we store validated and consistent data.
 
@@ -169,17 +176,19 @@ Persistence is the location where we store validated and consistent data.
    database persistence
    component --> persistence
 
-We usually use relational [databases](database.md) (PostgreSQL) to store data at
-our platform.
+We usually use relational databases (see :ref:`databases`) to store data at our
+platform. And we love PostgreSQL, a lot.
 
 
-## Patterns
+Patterns
+--------
 
 We can connect the building blocks above to create patterns with specific
 responsabilities in our architecture.
 
 
-### API
+API
+~~~
 
 The APIs are the channels which data is inserted and retrieved from our
 platform.
@@ -201,41 +210,59 @@ platform.
 The responsabilities of an API are:
 
 
-**1. Data input and recovery**
+Data input and recovery
+'''''''''''''''''''''''
 
 Our APIs are made available mostly using the REST model with JSON serialization
 using the HTTP protocol.
 
 
-**2. Data validation (including state transitions)**
+Data validation (including state transitions)
+'''''''''''''''''''''''''''''''''''''''''''''
 
 All data sent to our APIs must be valid and APIs need to be able to validate
-data autonomously, ie, APIs cannot request informations to other APIs to
-validate data.
+data autonomously, ie, APIs cannot request informations to other APIs (see
+:ref:`denormalization-and-data-sync`) to validate data.
 
 Some resources of our APIs provides fields that stores status/state info. It is
 responsibility of API validate these status and their transitions.
 
 
-**3. Data persistence**
+Data persistence
+''''''''''''''''
 
 The persistence/storage of data is also a responsibility of the APIs.
 
 We use a relational database in all cases where it is not absolutely necessary
 to use another type of storage.
 
-This persistence must be wrapped by a transaction with
-[event triggering](#4-event-triggering) and rolled back in case of failures.
-API must return an error in these cases.
+This persistence must be wrapped by a transaction with (see
+:ref:`event-triggering`) and rolled back in case of failures. API must return an
+error in these cases. Like in the following pseudocode:
+
+.. code::
+
+  transaction = begin_transaction()
+  try:
+    persist(object)
+    trigger_event(object)
+  except:
+    transaction.rollback()
+  transaction.commit()
 
 
-**4. Event triggering**
+Event triggering
+''''''''''''''''
 
 Once the data is persisted APIs need to trigger an event reporting this fact by
-posting a message on a specific [topic](#topic).
+posting a message on a specific topic (see :ref:`topic`).
+
+The payload of the event must include the content of the persisted object or, at
+least, a reference to the object at an API.
 
 
-**5. Idempotency Handling**
+Idempotency Handling
+''''''''''''''''''''
 
 In cases where one of our services make a duplicated request to our APIs it must
 handle this correctly. A duplicated `POST` request must receive a `303 See
@@ -249,26 +276,29 @@ Sending the same `POST` that creates a transaction twice:
 
 .. code-block::
 
-    $ curl -i -X POST https://api.example.com/transaction/ -d '
-      {"transaction_id": "03001629-463b-470b-a6aa-3fac82d5291c"}'
-    HTTP/1.1 201 Created
+   $ curl -i -X POST https://api.example.com/transaction/ \
+          -d '{"transaction_id": "deadbeef"}'
+   HTTP/1.1 201 Created
 
-    $ curl -i -X POST https://api.example.com/transaction/ -d '
-      {"transaction_id": "03001629-463b-470b-a6aa-3fac82d5291c"}'
-    HTTP/1.1 303 See other
-    Location: https://api.example.com/transaction/03001629-463b-470b-a6aa-3fac82d5291c/
+   $ curl -i -X POST https://api.example.com/transaction/ \
+          -d '{"transaction_id": "deadbeef"}'
+   HTTP/1.1 303 See other
+   Location: https://api.example.com/transaction/deadbeef
 
-Change an order status that is already invoiced to `invoiced`:
+Change an order status that is already in `invoiced` status:
 
 .. code-block::
-    $ curl -i -X PATCH https://api.example.com/order/XYZ/ -d '{"status": "invoiced"}'
-    HTTP/1.1 304 Not modified
+
+   $ curl -i -X PATCH https://api.example.com/order/XYZ/ \
+          -d '{"status": "invoiced"}'
+   HTTP/1.1 304 Not modified
 
 
-#### Webhook Handler
+Webhook Handler
+~~~~~~~~~~~~~~~
 
 A webhook handler resembles an API except that it does not persist data and is
-not required to adhere to the [API design guidelines](apis.md).
+not required to adhere to the :ref:`chapter-apis`.
 
 .. uml::
    :align: center
@@ -288,11 +318,13 @@ that retrieves notification data that was lost due to failure on notification
 handling.
 
 
-### Service
+Service
+~~~~~~~
 
-Services are components that process (consume) messages. These messages are
-sent to queues that subscribe to topics. You can also read this as "the services
-listen and process messages from topics".
+Services (also called as Workers or Consumers) are components that process
+(consume) messages. These messages are sent to queues that subscribe to topics.
+You can also read this as "the services listen and process messages from
+topics".
 
 One service consumes messages from one queue, as an input data, processes these
 data and then generates an output as a publication on topic or an API request.

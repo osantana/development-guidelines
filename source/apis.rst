@@ -1,3 +1,5 @@
+.. _chapter-apis:
+
 APIs (WIP)
 ==========
 

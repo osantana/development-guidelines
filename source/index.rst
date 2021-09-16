@@ -54,8 +54,8 @@ Handbooks
 * `Valve Handbook <http://www.valvesoftware.com/company/Valve_Handbook_LowRes.pdf>`_
 
 
-Development Guidelines
-~~~~~~~~~~~~~~~~~~~~~~
+Reference Development Guidelines
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * `Plataformatec <http://guidelines.plataformatec.com.br/>`_
 * `Terraform Recommended Practices <https://www.terraform.io/docs/enterprise/guides/recommended-practices/index.html>`_

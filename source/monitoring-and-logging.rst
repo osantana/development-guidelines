@@ -1,3 +1,5 @@
+.. _chapter-monitoring-and-logging:
+
 Monitoring & Logging
 ====================
 
@@ -8,6 +10,8 @@ Monitoring
 
 .. todo:: write it...
 
+
+.. _section-logging:
 
 Logging
 -------
