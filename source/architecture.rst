@@ -1,8 +1,8 @@
 Architecture
 ============
 
-Good architecture is a important subject at Olist. This section will describe
-some guidelines that must be followed when architecting a product or solution.
+Good architecture is a important subject. This section will describe some
+guidelines that must be followed when architecting a product or solution.
 
 
 .. _general-rules:
@@ -327,8 +327,8 @@ The only reponsibility of a service is:
 
 **1. Business Logic**
 
-We implement most of the business logic of our platform in services. This design
-allows us to keep API agnostic about Olist's specific business rules.
+We implement most of the business logic of our platform in services. This
+design allows us to keep API agnostic about specific business rules.
 
 This approach allow our APIs to be used by other market players, and also allow
 us to build services with different business rules for other markets.
