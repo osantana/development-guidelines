@@ -288,6 +288,14 @@ Implementation
 * Deployment checklist
 
 
+.. _section-denormalization-and-data-sync:
+
+Denormalization and Data Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. todo:: write this
+
+
 Troubleshooting
 ---------------
 
