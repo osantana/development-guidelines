@@ -160,7 +160,7 @@ must pass all checks and tests under our Continuous Integration environment.
 Our continuous integration must run the following checks:
 
 1. Run all automated tests;
-2. Check :ref:`coding-style`;
+2. Check :ref:`section-coding-style`;
 3. Run linters to check the presence of credentials, debugging artifacts, etc.
 
 
