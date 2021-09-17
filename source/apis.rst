@@ -325,3 +325,10 @@ __ Heroku_
 .. _Zalando: https://opensource.zalando.com/restful-api-guidelines/
 .. _Robustness_principle: https://en.wikipedia.org/wiki/Robustness_principle
 .. _Heroku: https://github.com/interagent/http-api-design
+
+
+References
+----------
+
+* `The definitive guide for building REST APIs
+  <https://medium.com/clebertech-en/the-definitive-guide-for-building-rest-apis-f70d37b1d656>`_
