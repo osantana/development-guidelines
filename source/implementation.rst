@@ -25,7 +25,7 @@ Code
 .. todo::
 
    good code > good doc, early optimization trap, early abstraction trap,
-   exception handling the "right way"
+   exception/error handling: (un)recoverable, (un)expected errors
 
 Code guidelines and best practices.
 

@@ -155,6 +155,7 @@ simplicity.
 * Resource Representations
 
   * JSON
+  * Protobuf
   * HTML (required for "Web APIs")
 
 * Resource Locators
