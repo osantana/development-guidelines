@@ -9,7 +9,7 @@ components and is easy to be used by the developers that create these components
 
 This chapter provides guidelines for creating APIs with these characteristics
 for services. If you need more informations about APIs in the context of
-libraries take a look at chapter :ref:`libraries-and-apis`.
+libraries take a look at chapter :ref:`section-libraries-and-apis`.
 
 This chapter is based mostly on guidelines created by `PayPal`_, `Google`_, and
 `Microsoft`_. If you have some question about one subject not covered here, we
