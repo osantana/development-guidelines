@@ -1,7 +1,7 @@
 .. _chapter-apis:
 
 APIs (WIP)
-==========
+**********
 
 Application Public Interfaces (API) are channels through which multiple software
 components communicate. A good API provides efficient communication between
@@ -22,7 +22,7 @@ recommend these documents as a further reference.
 
 
 Design
-------
+======
 
 * Design First (required)
 
@@ -120,7 +120,7 @@ Design
 
 
 Specification and Documentation
--------------------------------
+===============================
 
   * Specification Tools
 
@@ -144,7 +144,7 @@ Specification and Documentation
 
 
 HTTP, REST and Web
-------------------
+==================
 
 We love the Web and HTTP protocol. The simplicity of the concepts like
 Resource/Document, Resource references hyperlinking (through URL), and the
@@ -269,7 +269,7 @@ simplicity.
 
 
 Implementation
---------------
+==============
 
 * Response time
 
@@ -292,24 +292,24 @@ Implementation
 .. _section-denormalization-and-data-sync:
 
 Denormalization and Data Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
-.. todo:: write this
-
-
-Troubleshooting
----------------
-
-.. todo:: **TODO**
-
-   translate the following topics
+.. todo:: write this topic...
 
 
-Técnicas padronizadas para resolver problemas comuns
+Common Solutions
+================
 
-* Usar PUT com o ID gerado no client para resolver problema de duplicação de
-  objetos causada por clique-duplo na webapp.
-* Gerenciar workflow de processos usando status em uma api de apoio.
+Standard techniques to solve common problems:
+
+* Use PUT-as-create with an client-side generated ID to fix duplicated resource
+* creation caused by double-clicked issues on client web application.
+* Use status fields to manage workflows of objects that need to be processed on
+  multiple steps.
+
+
+References
+==========
 
 
 API Design Guidelines
@@ -335,9 +335,8 @@ __ Heroku_
 .. _Robustness_principle: https://en.wikipedia.org/wiki/Robustness_principle
 .. _Heroku: https://github.com/interagent/http-api-design
 
-
-References
-----------
+Articles
+--------
 
 * `The definitive guide for building REST APIs
   <https://medium.com/clebertech-en/the-definitive-guide-for-building-rest-apis-f70d37b1d656>`_

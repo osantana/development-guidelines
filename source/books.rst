@@ -1,7 +1,5 @@
-.. _chapter-books:
-
 Books
-=====
+*****
 
 Suggested reading list:
 

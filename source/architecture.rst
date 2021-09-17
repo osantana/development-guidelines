@@ -1,7 +1,7 @@
 .. _chapter-architecture:
 
 Architecture
-============
+************
 
 .. important:: Ready for revision.
 
@@ -12,13 +12,13 @@ guidelines that must be followed when architecting a product or solution.
 .. _section-general-rules:
 
 General Rules
--------------
+=============
 
 
 .. _section-minimal-dependencies:
 
 Minimal Dependencies
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 * Reduce the number of requirements and components for a project. Less "moving
   parts", less complexity. Less complexity, less bugs.
@@ -33,7 +33,7 @@ Minimal Dependencies
 .. _section-auditability:
 
 Auditability
-~~~~~~~~~~~~
+------------
 
 * All transactions need to be traceable. We need to know *When* (timestamp),
   *Who* (user), and *Where* (source) started *What* (transaction).
@@ -49,7 +49,7 @@ Auditability
 .. _section-microservices-architecture:
 
 Microservices (or SOA) Architecture
------------------------------------
+===================================
 
 We deploy products and solutions as a bunch of highly specialized and reliable
 services that communicate each other using messages.
@@ -67,7 +67,7 @@ Building Blocks
 .. _section-message:
 
 Message
-~~~~~~~
+^^^^^^^
 
 Messages are the base building block of our architecture. Every service
 communicate with each other using messages.
@@ -87,7 +87,7 @@ serializer like JSON or Protobuf. You can wrap this messages with some metadata.
 .. _section-component:
 
 Component
-~~~~~~~~~
+^^^^^^^^^
 
 Component is a service or API that receive, processes and triggers events.
 It's implemented and deployed as software processes.
@@ -104,7 +104,7 @@ It's implemented and deployed as software processes.
 .. _section-topic:
 
 Topic
-~~~~~
+^^^^^
 
 Our architecture use topic as a location where components send messages
 (Publishers) that would be listened by other components that subscribes to it
@@ -132,7 +132,7 @@ are public (to the platform) and global.
 .. _section-queue:
 
 Queue
-~~~~~
+^^^^^
 
 Every component that needs to listen for messages published on topic (see
 :ref:`section-topic`) must use a queue as a topic subscriber.
@@ -171,7 +171,7 @@ other components messages.
 .. _section-storage:
 
 Storage
-~~~~~~~
+^^^^^^^
 
 Storage is the location where we store validated and consistent data.
 
@@ -208,7 +208,7 @@ responsabilities in our architecture.
 .. _section-api:
 
 API
-~~~
+^^^
 
 The APIs are the channels which data is inserted and retrieved from our
 platform.
@@ -233,7 +233,7 @@ The responsabilities of an API are:
 .. _section-data-input-and-recovery:
 
 Data input and recovery
-'''''''''''''''''''''''
+"""""""""""""""""""""""
 
 Our APIs are made available mostly using the REST model with JSON serialization
 using the HTTP protocol.
@@ -242,7 +242,7 @@ using the HTTP protocol.
 .. _section-data-validation:
 
 Data validation (including state transitions)
-'''''''''''''''''''''''''''''''''''''''''''''
+"""""""""""""""""""""""""""""""""""""""""""""
 
 All data sent to our APIs must be valid and APIs need to be able to validate
 data autonomously, ie, APIs cannot request informations to other APIs (see
@@ -255,7 +255,7 @@ responsibility of API validate these status and their transitions.
 .. _section-data-persistence:
 
 Data persistence
-''''''''''''''''
+""""""""""""""""
 
 The persistence/storage of data is also a responsibility of the APIs.
 
@@ -280,7 +280,7 @@ return an error in these cases. Like in the following pseudocode:
 .. _section-event-triggering:
 
 Event triggering
-''''''''''''''''
+""""""""""""""""
 
 Once the data is persisted APIs need to trigger an event reporting this fact by
 posting a message on a specific topic (see :ref:`section-topic`).
@@ -337,7 +337,7 @@ message:
 .. _section-idempotency-handling:
 
 Idempotency Handling
-''''''''''''''''''''
+""""""""""""""""""""
 
 In cases where one of our services make a duplicated request to our APIs it must
 handle this correctly. A duplicated `POST` request must receive a `303 See
@@ -372,7 +372,7 @@ Change an order status that is already in `invoiced` status:
 .. _section-webhook-handler:
 
 Webhook Handler
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 
 A webhook handler resembles an API except that it does not persist data and is
 not required to adhere to the :ref:`chapter-apis` guidelines.
@@ -398,7 +398,7 @@ handling.
 .. _section-service:
 
 Service
-~~~~~~~
+^^^^^^^
 
 Services (also called as Workers or Consumers) are components that process
 (consume) messages. These messages are sent to queues that subscribe to topics.
@@ -433,7 +433,7 @@ So a service works following the steps below:
    service --> API
    service --> target: or...
 
-The only reponsibility of a service is: Business Logic.
+The only reponsibility of a service is: **Business Logic**.
 
 We implement most of the business logic of our platform in services. This
 design allows us to keep API agnostic about specific business rules.
@@ -445,7 +445,7 @@ us to build services with different business rules for other markets.
 .. _section-broker:
 
 Broker
-''''''
+^^^^^^
 
 Broker is a special kind of service that consumes more than one queue. We use
 brokers basically to make code maintenance easier grouping several services that
@@ -482,7 +482,7 @@ interacts with, eg, one API in a single code base/deploy.
 .. _section-scheduled-job:
 
 Scheduled Job
-~~~~~~~~~~~~~
+^^^^^^^^^^^^^
 
 Scheduled Jobs are services triggered by the clock (usually in a regular cycle)
 to make some kind of batch action and publish the results in one topic (eg. get
@@ -505,7 +505,7 @@ all orders lost by webhook handler and publish one-by-one in a topic).
 .. _section-client-application:
 
 Client Application
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^
 
 Client Applications are web (or mobile) applications which provides the means by
 which users interacts with our platform.
@@ -527,7 +527,7 @@ which users interacts with our platform.
 .. _section-integrations:
 
 Integrations
-------------
+============
 
 We've two kinds of integrations at our platform:
 
@@ -569,7 +569,7 @@ rules and procedures:
 .. _section-architecture-references:
 
 References
-----------
+==========
 
 * `Some Guidelines For Deciding Whether To Use A Rules Engine
   <http://herzberg.ca.sandia.gov/guidelines.shtml>`_

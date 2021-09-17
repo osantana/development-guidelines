@@ -1,5 +1,5 @@
 Development Guidelines
-======================
+######################
 
 This set of pages holds general guidelines and orientation for the development
 of software projects. All projects must follow all the rules from these
@@ -7,8 +7,9 @@ guidelines.
 
 
 .. toctree::
+   :maxdepth: 2
    :caption: Table of Contents
-   :numbered:
+   :numbered: 2
 
    general
    processes-and-practices
@@ -19,8 +20,10 @@ guidelines.
    books
 
 
+.. _section-document-conventions:
+
 Document Conventions
---------------------
+====================
 
 We use keywords like "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT",
 "RECOMMENDED", "MAY", and "OPTIONAL" with the same definitions as the
@@ -34,28 +37,35 @@ variables in samples and ``#`` as a comment mark::
     https://api.example.com/account/{account-id}
 
 
+.. _section-general-references:
+
 General References
-------------------
+==================
 
 A list of documents and sites we use to produce our guidelines.
 
+
+.. _section-handbooks:
+
 Handbooks
-~~~~~~~~~
+---------
 
 * `Basecamp Handbook <https://github.com/basecamp/handbook>`_
 * `Gitlab Handbook <https://about.gitlab.com/handbook/>`_
 * `Valve Handbook <http://www.valvesoftware.com/company/Valve_Handbook_LowRes.pdf>`_
 
 
-Reference Development Guidelines
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _section-development-guidelines:
+
+Development Guidelines
+----------------------
 
 * `Plataformatec <http://guidelines.plataformatec.com.br/>`_
 * `Terraform Recommended Practices <https://www.terraform.io/docs/enterprise/guides/recommended-practices/index.html>`_
 
 
 Culture Books
-~~~~~~~~~~~~~
+-------------
 
 * `Netflix Culture <https://www.slideshare.net/reed2001/culture-1798664) (deprecated>`_
 * `Disqus Culture <https://www.dropbox.com/s/u6suqbbk2w1vbwz/Disqus%20Culture%20Book.pdf>`_

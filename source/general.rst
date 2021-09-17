@@ -1,9 +1,9 @@
 General Guidelines
-==================
+******************
 
 
 Simplicity
-----------
+==========
 
 We appreciate simplicity. Simple does not mean simplistic. It's hard to achieve
 simplicity because it demands a lot of thinking about the problems and
@@ -11,14 +11,14 @@ solutions.
 
 
 Pragmatism
-----------
+==========
 
 We are pragmatic about our choices. We will never adopt a solution without a
 strong rationale about the decision.
 
 
 Quality
--------
+=======
 
 Quality vs fast-delivery is not a dilemma. We use agile practices to handle
 this kind of situations.
@@ -30,15 +30,8 @@ In fact we cannot neglect quality but we try hard to deliver on time because
 we are a business oriented team.
 
 
-Business Oriented
------------------
-
-A developer must go beyond software development. It's required that developers
-understand our business and its problems to create better solutions for it.
-
-
 Craftsmanship
--------------
+=============
 
 We believe strongly in the `Software Craftsmanship`_ movement and in their
 manifesto.

@@ -1,26 +1,11 @@
 Implementation
-==============
-
-E-Mail
-------
-
-.. todo:: write this
-
-
-.. _section-database:
-
-Database
---------
-
-.. todo:: write this
-
-   non-sequential ids, strings instead of enums
+**************
 
 
 .. _section-code:
 
 Code
-----
+====
 
 .. todo::
 
@@ -31,13 +16,13 @@ Code guidelines and best practices.
 
 
 General advices
-~~~~~~~~~~~~~~~
+---------------
 
-* Always KISS - Keep It Super Simple.
+* Always KISS - Keep It Super Simple;
 * All source files must be written in English (variables, functions, classes,
-  docstrings and etc). Only strings submitted to our brazilian customers/users
-  should be in Portuguese with i18n.
-* A code well written is self documented.
+  docstrings and etc). Only strings submitted to customers/users should be in
+  in their native language (i18n/l10n);
+* A code well written is self documented;
 * Pay attention to the quality of your code using some indicators like
   cyclomatic complexity or the presence of some `Bad Smell`_.
 
@@ -45,7 +30,7 @@ General advices
 .. _section-coding-style:
 
 Coding Style
-~~~~~~~~~~~~
+------------
 
 Coding style is a complex subject with lots of personal preferences and we
 believe that this preferences must be respected until the limit where it causes
@@ -63,7 +48,7 @@ programming language, eg:
 
 
 PEP-8 Customizations
-""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^
 
 We use most of the rules defined by PEP-8 except the rules that define the
 maximun line length. Instead of 80 characters we define a soft-limit in 120
@@ -72,7 +57,7 @@ moderation.
 
 
 Tests
-~~~~~
+-----
 
 .. todo:: expand this session (or move to a new chapter), describe some test
    patterns?
@@ -91,11 +76,9 @@ Tests
 
 
 Configuration
-~~~~~~~~~~~~~
+-------------
 
-
-.. note:: move this session to other chapter?
-
+.. todo:: move this session to other chapter?
 
 * Configuration through environment variables: `12-factor`_ configuration.
 * Avoid different configurations for each environment.
@@ -108,11 +91,9 @@ Configuration
 
 
 Security
-~~~~~~~~
+--------
 
-
-.. note:: create a chapter specific for security?
-
+.. todo:: create a chapter specific for security?
 
 * Sensible and secret data must not be versioned with the code.
 * Always follow and apply security patches.
@@ -122,22 +103,12 @@ Security
 * Handle HTTP errors with static pages to avoid exploits.
 
 
-.. _PEP-8 – Style Guide for Python Code: https://www.python.org/dev/peps/pep-0008/
-.. _Beyond PEP-8: https://www.youtube.com/watch?v=wf-BqAjZb8M
-.. _gofmt: https://golang.org/cmd/gofmt/
-.. _Bad Smell: https://blog.codinghorror.com/code-smells/
-.. _\_mix_format: https://hexdocs.pm/mix/master/Mix.Tasks.Format.html
-.. _12-factor: https://12factor.net
-
-
 .. _section-libraries-and-apis:
 
 Libraries and APIs
-~~~~~~~~~~~~~~~~~~
+------------------
 
-.. todo:: move all libraries-API related topics from API chapter here.
-
-.. warning:: **Informations are temporarily in Portuguese but it will be
+.. todo:: **Informations are temporarily in Portuguese but it will be
    rewritten in English in final version of the document.**
 
 * Devem ter changelog.
@@ -158,4 +129,29 @@ Libraries and APIs
 
   * Podemos usar como referência as `Definições do Projeto GNU`_.
 
+
+.. _section-email:
+
+E-Mail
+======
+
+.. todo:: write this
+
+
+.. _section-database:
+
+Database
+========
+
+.. todo:: write this
+
+   non-sequential ids, strings instead of enums
+
+
+.. _PEP-8 – Style Guide for Python Code: https://www.python.org/dev/peps/pep-0008/
+.. _Beyond PEP-8: https://www.youtube.com/watch?v=wf-BqAjZb8M
+.. _gofmt: https://golang.org/cmd/gofmt/
+.. _Bad Smell: https://blog.codinghorror.com/code-smells/
+.. _\_mix_format: https://hexdocs.pm/mix/master/Mix.Tasks.Format.html
+.. _12-factor: https://12factor.net
 .. _Definições do Projeto GNU: https://www.gnu.org/prep/standards/html_node/Change-Logs.html
