@@ -13,7 +13,6 @@ guidelines.
    general
    processes-and-practices
    apis
-   integrations
    architecture
    monitoring-and-logging
    implementation
