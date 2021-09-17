@@ -12,18 +12,12 @@ guidelines.
 
    general
    processes-and-practices
-   code
    apis
    integrations
    architecture
    monitoring-and-logging
-
-.. todo:: **TODO**
-
-   * [Database](database.md)
-   * [Emails](emails.md)
-   * [Books](books.md)
-   * [Glossary](glossary.md)
+   implementation
+   books
 
 
 Document Conventions

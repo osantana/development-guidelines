@@ -1,11 +1,37 @@
+Implementation
+==============
+
+E-Mail
+------
+
+.. todo:: write this
+
+
+.. _section-database:
+
+Database
+--------
+
+.. todo:: write this
+
+   non-sequential ids, strings instead of enums
+
+
+.. _section-code:
+
 Code
-====
+----
+
+.. todo::
+
+   good code > good doc, early optimization trap, early abstraction trap,
+   exception handling the "right way"
 
 Code guidelines and best practices.
 
 
 General advices
----------------
+~~~~~~~~~~~~~~~
 
 * Always KISS - Keep It Super Simple.
 * All source files must be written in English (variables, functions, classes,
@@ -16,10 +42,10 @@ General advices
   cyclomatic complexity or the presence of some `Bad Smell`_.
 
 
-.. _coding-style:
+.. _section-coding-style:
 
 Coding Style
-------------
+~~~~~~~~~~~~
 
 Coding style is a complex subject with lots of personal preferences and we
 believe that this preferences must be respected until the limit where it causes
@@ -37,7 +63,7 @@ programming language, eg:
 
 
 PEP-8 Customizations
-~~~~~~~~~~~~~~~~~~~~
+""""""""""""""""""""
 
 We use most of the rules defined by PEP-8 except the rules that define the
 maximun line length. Instead of 80 characters we define a soft-limit in 120
@@ -46,7 +72,7 @@ moderation.
 
 
 Tests
------
+~~~~~
 
 .. todo:: expand this session (or move to a new chapter), describe some test
    patterns?
@@ -65,7 +91,7 @@ Tests
 
 
 Configuration
--------------
+~~~~~~~~~~~~~
 
 
 .. note:: move this session to other chapter?
@@ -82,7 +108,7 @@ Configuration
 
 
 Security
---------
+~~~~~~~~
 
 
 .. note:: create a chapter specific for security?
@@ -104,10 +130,10 @@ Security
 .. _12-factor: https://12factor.net
 
 
-.. _libraries-and-apis:
+.. _section-libraries-and-apis:
 
 Libraries and APIs
-------------------
+~~~~~~~~~~~~~~~~~~
 
 .. todo:: move all libraries-API related topics from API chapter here.
 
