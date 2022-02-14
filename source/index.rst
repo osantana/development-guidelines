@@ -64,6 +64,12 @@ Development Guidelines
 * `Terraform Recommended Practices <https://www.terraform.io/docs/enterprise/guides/recommended-practices/index.html>`_
 
 
+Architecture Patterns
+---------------------
+
+* `Azure Architecture Center <https://docs.microsoft.com/en-us/azure/architecture/>`_
+
+
 Culture Books
 -------------
 
