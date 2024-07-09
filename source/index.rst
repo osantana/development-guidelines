@@ -53,6 +53,7 @@ Handbooks
 * `Basecamp Handbook <https://github.com/basecamp/handbook>`_
 * `Gitlab Handbook <https://about.gitlab.com/handbook/>`_
 * `Valve Handbook <http://www.valvesoftware.com/company/Valve_Handbook_LowRes.pdf>`_
+* `Resend Handbook <https://resend.com/handbook>`_
 
 
 .. _section-development-guidelines:
