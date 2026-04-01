@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+!option handwritten true
+
+agent service
+agent API
+interface source
+interface target
+
+source -(0)-> service: queue\n
+service --> API
+service --> target: or...
+@enduml

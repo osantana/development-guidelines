@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+!option handwritten true
+
+actor user
+agent client
+agent API
+
+user --> client
+client --> API
+@enduml

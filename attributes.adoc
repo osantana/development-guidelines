@@ -1,0 +1,9 @@
+:icons: font
+:xrefstyle: full
+:figure-caption: Figure
+:table-caption: Table
+:example-caption: Example
+:appendix-caption: Appendix
+:chapter-signifier: Chapter
+:chapter-refsig: {chapter-signifier}
+:section-refsig: Section

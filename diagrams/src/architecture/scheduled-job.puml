@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+!option handwritten true
+
+agent job
+control clock
+interface topic
+
+clock --> job
+job --> topic
+@enduml

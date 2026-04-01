@@ -1,0 +1,14 @@
+[appendix]
+== Books
+
+Suggested reading list:
+
+* https://www.amazon.com.br/Clean-Code-Handbook-Software-Craftsmanship-ebook/dp/B001GSTOAM/[Clean
+Code: A Handbook of Agile Software Craftsmanship], Robert C. Margin
+* https://www.amazon.com.br/Pragmatic-Programmer-Journeyman-Master-ebook/dp/B003GCTQAE/[The
+Pragmatic Programmer: From Journeyman to Master], Andrew Hunt, David
+Thomas
+* https://www.amazon.com.br/Building-Microservices-Designing-Fine-Grained-Systems-ebook/dp/B00T3N7XB4/[Building
+Microservices: Designing Fine-Grained Systems], Sam Newman
+* https://www.amazon.com/Refactoring-Improving-Design-Existing-Code/dp/0201485672/[Refactoring:
+Improving the Design of Existing Code], Martin Fowler

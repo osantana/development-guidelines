@@ -1,4 +1,5 @@
 build/
+diagrams/rendered/
 .idea/
 .venv/
 source/_build/

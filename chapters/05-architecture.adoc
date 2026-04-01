@@ -1,0 +1,391 @@
+[[chapter-architecture]]
+== Architecture
+
+[IMPORTANT]
+====
+Ready for revision.
+====
+
+Good architecture is a important subject. This section will describe
+some guidelines that must be followed when architecting a product or
+solution.
+
+[[section-general-rules]]
+=== General Rules
+
+[[section-minimal-dependencies]]
+==== Minimal Dependencies
+
+* Reduce the number of requirements and components for a project. Less
+"moving parts", less complexity. Less complexity, less bugs.
+* Resist the temptation to add another element to the solution stack.
+* Limit the use of new tools to occasions where current tools are
+insufficient.
+* Adopt new tools only when they are beneficial to the project.
+* Prefer third party (managed) tools in cases where the solution is not
+part of our core business. Example: if you need a solution for message
+queueing prefer using AWS SQS instead of make a RabbitMQ deployment.
+
+[[section-auditability]]
+==== Auditability
+
+* All transactions need to be traceable. We need to know _When_
+(timestamp), _Who_ (user), and _Where_ (source) started _What_
+(transaction).
+* Transactions must be uniquely identified (`transaction_id`)
+through all components of platform.
+* Transaction identifier must be present in all logs (see
+<<section-logging>>).
+* It's important to make a distinction between Transaction ID that
+relates with a business transaction (eg. product approved by moderation)
+and Request ID that relates with a implementation detail (HTTP request).
+
+[[section-microservices-architecture]]
+=== Microservices (or SOA) Architecture
+
+We deploy products and solutions as a bunch of highly specialized and
+reliable services that communicate each other using messages.
+
+After some time deploying this kind of service we have detected some
+building blocks and patterns for architecture.
+
+[[section-building-blocks]]
+==== Building Blocks
+
+[[section-message]]
+===== Message
+
+Messages are the base building block of our architecture. Every service
+communicate with each other using messages.
+
+image::diagrams/rendered/architecture/message.svg[Message diagram,align=center]
+
+Messages follows a common contract and must be serialized using a
+open-standard serializer like JSON or Protobuf. You can wrap this
+messages with some metadata.
+
+[[section-component]]
+===== Component
+
+Component is a service or API that receive, processes and triggers
+events. It's implemented and deployed as software processes.
+
+image::diagrams/rendered/architecture/component.svg[Component diagram,align=center]
+
+[[section-topic]]
+===== Topic
+
+Our architecture use topic as a location where components send messages
+(Publishers) that would be listened by other components that subscribes
+to it (Subscribers).
+
+image::diagrams/rendered/architecture/topic.svg[Topic diagram,align=center]
+
+Topics belongs to the platform, ie, any component can post messages
+because they are public (to the platform) and global.
+
+[[section-queue]]
+===== Queue
+
+Every component that needs to listen for messages published on topic
+(see <<section-topic>>) must use a queue as a topic subscriber.
+
+image::diagrams/rendered/architecture/queue.svg[Queue diagram,align=center]
+
+Queues belongs to the component (eg. <<section-service>> or
+<<section-broker>>) that subscribes a topic. Unlike topics, queues are
+private and local to the component that consume its messages.
+
+It is very common that different components listen to the same topic.
+Assigning one queue to each component and knowing that each queue
+receives a copy of the published message we can guarantee that one
+component won't process other components messages.
+
+[[section-storage]]
+===== Storage
+
+Storage is the location where we store validated and consistent data.
+
+image::diagrams/rendered/architecture/storage.svg[Storage diagram,align=center]
+
+We usually use relational databases (see <<section-database>>) to store
+data at our platform.
+
+We ❤️ PostgreSQL, a lot (you should not use anything different).
+
+[[section-patterns]]
+==== Patterns
+
+We can connect the building blocks above to create patterns with
+specific responsabilities in our architecture.
+
+[[section-api]]
+===== API
+
+The APIs are the channels which data is inserted and retrieved from our
+platform.
+
+image::diagrams/rendered/architecture/api.svg[API diagram,align=center]
+
+The responsabilities of an API are:
+
+[[section-data-input-and-recovery]]
+====== Data input and recovery
+
+Our APIs are made available mostly using the REST model with JSON
+serialization using the HTTP protocol.
+
+[[section-data-validation]]
+====== Data validation (including state transitions)
+
+All data sent to our APIs must be valid and APIs need to be able to
+validate data autonomously, ie, APIs cannot request informations to
+other APIs (see <<section-denormalization-and-data-sync>>) to validate
+data.
+
+Some resources of our APIs provides fields that stores status/state
+info. It is responsibility of API validate these status and their
+transitions.
+
+[[section-data-persistence]]
+====== Data persistence
+
+The persistence/storage of data is also a responsibility of the APIs.
+
+As we already mentioned, we use a relational database in all cases where
+it is not absolutely necessary to use another type of storage.
+
+This persistence must be wrapped by a transaction with (see
+<<section-event-triggering>>) and rolled back in case of failures. API
+must return an error in these cases. Like in the following pseudocode:
+
+[source,]
+----
+transaction = begin_transaction()
+try:
+  persist(object)
+  trigger_event(object)
+except:
+  transaction.rollback()
+transaction.commit()
+----
+
+[[section-event-triggering]]
+====== Event triggering
+
+Once the data is persisted APIs need to trigger an event reporting this
+fact by posting a message on a specific topic (see <<section-topic>>).
+
+The payload of the event must include the content of the persisted
+object or, at least, a reference to the object at an API.
+
+You can use the following payload as an example for the content of the
+event message:
+
+[source,JSON]
+----
+{
+  "transaction_id": "deadbeef",
+  "object_type": "order",
+  "object_id": "bb654446-22d4-4f28-ab3e-e72bebb89a8c",
+  "href_template": "https://api.example.com/{object_type}/{object_id}"
+  "href": "https://api.example.com/order/bb654446-22d4-4f28-ab3e-e72bebb89a8c",
+  "action": {
+    "type": "update",
+    "changes": [
+      {
+        "field": "status",
+        "value": "invoiced",
+        "old_value": "new"
+      }
+    ]
+  },
+  "embedded": {
+    "order_id": "bb654446-22d4-4f28-ab3e-e72bebb89a8c",
+    "seller_id": "9d054c45-a72e-4878-a932-f131e92e2bf7",
+    "status": "invoiced"
+  }
+}
+----
+
+* `transaction_id`: used to make transaction traceable (see
+<<section-auditability>>);
+* `object_type`: the type of the object that received the action
+that triggered the event;
+* `object_id`: the ID of the object that received the action that
+triggered the event;
+* `href_template`: the template that you can use to generate the
+hyperlink reference to the object. You can use it to generate custom
+URLs to access an specific objects;
+* `href`: the hyperlink reference to the object (for convenience);
+* `action`: the action that triggered the event. In the example we can
+see a change (`update`) in the order. Based on the list of changes we
+can also see that the order's status transitioned from `new` to
+`invoiced`;
+* `embedded`: some fields of the object that could be directly used by
+other services. These fields could be used to reduce the amount of
+requests to the APIs but can also increase the payload of the messages.
+Use it wisely.
+
+[[section-idempotency-handling]]
+====== Idempotency Handling
+
+In cases where one of our services make a duplicated request to our APIs
+it must handle this correctly. A duplicated [.title-ref]#POST# request
+must receive a [.title-ref]#303 See other# response and other request
+methods must receive a [.title-ref]#304 Not Modified# response.
+
+The implementation of this handling depends on specific business rules.
+But let's look for some examples.
+
+Sending the same [.title-ref]#POST# that creates a transaction twice:
+
+[source,shell]
+----
+$ curl -i -X POST https://api.example.com/transaction/ \\
+       -d '{"transaction_id": "deadbeef"}'
+HTTP/1.1 201 Created
+
+$ curl -i -X POST https://api.example.com/transaction/ \\
+       -d '{"transaction_id": "deadbeef"}'
+HTTP/1.1 303 See other
+Location: https://api.example.com/transaction/deadbeef
+----
+
+Change an order status that is already in [.title-ref]#invoiced# status:
+
+[source,shell]
+----
+$ curl -i -X PATCH https://api.example.com/order/XYZ/ \\
+       -d '{"status": "invoiced"}'
+HTTP/1.1 304 Not modified
+----
+
+[[section-webhook-handler]]
+===== Webhook Handler
+
+A webhook handler resembles an API except that it does not persist data
+and is not required to adhere to the <<chapter-apis>> guidelines.
+
+image::diagrams/rendered/architecture/webhook-handler.svg[Webhook handler diagram,align=center]
+
+Webhook handlers exists to receive notifications from external partners.
+It is important that all webhook handlers work together with a scheduled
+job service that retrieves notification data that was lost due to
+failure on notification handling.
+
+[[section-service]]
+===== Service
+
+Services (also called as Workers or Consumers) are components that
+process (consume) messages. These messages are sent to queues that
+subscribe to topics. You can also read this as "the services listen and
+process messages from topics".
+
+One service consumes messages from one queue, as an input data,
+processes these data and then generates an output as a publication on
+topic or an API request.
+
+The simplest type of service are the 'de-queuers' that basically process
+messages from a single queue (that subscribe a single topic).
+
+So a service works following the steps below:
+
+[arabic]
+. Get _one_ message from a queue (that subscribes a topic);
+. Process this message (following/applying business rules);
+. Get extra informations requesting them to APIs (optional);
+. Send the result publishing it in a topic or posting _one_ request to
+an API.
+
+image::diagrams/rendered/architecture/service.svg[Service diagram,align=center]
+
+The only reponsibility of a service is: *Business Logic*.
+
+We implement most of the business logic of our platform in services.
+This design allows us to keep API agnostic about specific business
+rules.
+
+This approach allow our APIs to be used by other market players, and
+also allow us to build services with different business rules for other
+markets.
+
+[[section-broker]]
+===== Broker
+
+Broker is a special kind of service that consumes more than one queue.
+We use brokers basically to make code maintenance easier grouping
+several services that interacts with, eg, one API in a single code
+base/deploy.
+
+image::diagrams/rendered/architecture/broker.svg[Broker diagram,align=center]
+
+[[section-scheduled-job]]
+===== Scheduled Job
+
+Scheduled Jobs are services triggered by the clock (usually in a regular
+cycle) to make some kind of batch action and publish the results in one
+topic (eg. get all orders lost by webhook handler and publish one-by-one
+in a topic).
+
+image::diagrams/rendered/architecture/scheduled-job.svg[Scheduled job diagram,align=center]
+
+[[section-client-application]]
+===== Client Application
+
+Client Applications are web (or mobile) applications which provides the
+means by which users interacts with our platform.
+
+image::diagrams/rendered/architecture/client-application.svg[Client application diagram,align=center]
+
+[[section-integrations]]
+=== Integrations
+
+We've two kinds of integrations at our platform:
+
+[arabic]
+. *Internal integrations:* when one of our components must interact with
+other component of our platform (eg. service makes a request to an API)
+and;
+. *External integrations:* when one of our components must interact with
+a component of other platform (eg. service makes a request to one of our
+partner's API).
+
+On both integration scenarios we need to start from the following
+premisse:
+
+____
+No matter if a system is internal or external it eventually...
+
+* ... goes *offline*...
+* ... *crashes*...
+* ... or *change their behaviour without notice*.
+____
+
+So, to make an integration work in a reliable fashion we need to follow
+some rules and procedures:
+
+* Be prepared for the worst;
+* Create a SLA for all integrations;
+* Monitor (see <<chapter-monitoring-and-logging>>) all aspects of
+integration (eg. errors, performance, availability, etc);
+* Always use a
+https://martinfowler.com/bliki/CircuitBreaker.html[Circuit Breaker]
+pattern for integration;
+* Set a (small) timeout for requests to avoid that the client becomes
+blocked;
+* Create a retry policy based on defined SLAs or based on informations
+at error response (eg. [.title-ref]#Retry-After:# HTTP header in
+[.title-ref]#503 Service Unavailable# responses);
+* Remember that, depending on the context, some errors are recoverable
+and others are not recoverable. Handle error responses appropriately:
+retrying, rolling back, logging, etc;
+* All these rules and procedures must be implemented out-of-box in all
+services. No code deployment must be required to handle unavailability
+scenarios.
+
+[[section-architecture-references]]
+=== References
+
+* http://herzberg.ca.sandia.gov/guidelines.shtml[Some Guidelines For
+Deciding Whether To Use A Rules Engine]

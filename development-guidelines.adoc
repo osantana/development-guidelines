@@ -1,0 +1,27 @@
+= Development Guidelines
+:doctype: book
+:author: Osvaldo Santana Neto
+:lang: en
+:language: asciidoctor
+include::attributes.adoc[]
+:toc:
+:toclevels: 3
+:sectnums:
+:sectlinks:
+:!chapter-signifier:
+
+include::capitulos/01-introduction.adoc[]
+
+include::capitulos/02-general-guidelines.adoc[]
+
+include::capitulos/03-processes-and-practices.adoc[]
+
+include::capitulos/04-apis.adoc[]
+
+include::capitulos/05-architecture.adoc[]
+
+include::capitulos/06-monitoring-and-logging.adoc[]
+
+include::capitulos/07-implementation.adoc[]
+
+include::capitulos/A1-books.adoc[]

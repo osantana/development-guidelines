@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+!option handwritten true
+skinparam agent {
+  BorderColor #808080
+  BackgroundColor #ffffff
+  FontColor #808080
+}
+skinparam interface {
+  BorderColor #808080
+  BackgroundColor #ffffff
+  FontColor #808080
+}
+
+agent component
+interface topic
+topic -(0)-> component: queue\n
+@enduml

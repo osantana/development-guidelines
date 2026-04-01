@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+!option handwritten true
+skinparam agent {
+  BorderColor #808080
+  BackgroundColor #ffffff
+  FontColor #808080
+}
+
+agent component
+database storage
+component --> storage
+@enduml

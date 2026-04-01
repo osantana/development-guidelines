@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+!option handwritten true
+
+agent broker
+interface source1
+interface source2
+interface source3
+interface sourceN...
+
+interface target1
+interface target2
+interface target3
+interface targetN...
+
+source1 -(0)-> broker: queue1
+source2 -(0)-> broker: queue2
+source3 -(0)-> broker: queue3
+sourceN... -(0)-> broker: queueN...
+
+broker --> target1
+broker --> target2
+broker --> target3
+broker --> targetN...
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+!option handwritten true
+
+cloud data
+agent API
+database db
+interface topic
+
+data -right-> API
+API -down-> db
+API -right-> topic
+@enduml

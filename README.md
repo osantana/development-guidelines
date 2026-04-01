@@ -1,26 +1,25 @@
-# Development Guideline
+# Development Guidelines
 
 Guidelines for Software Development Projects
 
 ## Setup
 
 ```
-$ python -m venv .venv
-$ .venv/bin/pip install -r requirements.txt
+$ brew install asciidoctor
 ```
 
 ## Build
 
-Sphinx can generate different formats. To see a list of options:
+Generate the HTML book with:
 
 ```
-$ make
+$ asciidoctor development-guidelines.adoc -D build
 ```
 
-Then run:
+The generated file will be available at:
 
 ```
-$ make [format]
+$ open build/development-guidelines.html
 ```
 
 

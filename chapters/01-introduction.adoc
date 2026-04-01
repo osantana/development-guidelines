@@ -1,0 +1,54 @@
+== Introduction
+
+This set of pages holds general guidelines and orientation for the
+development of software projects. All projects must follow all the rules
+from these guidelines.
+
+[[section-document-conventions]]
+=== Document Conventions
+
+We use keywords like "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD
+NOT", "RECOMMENDED", "MAY", and "OPTIONAL" with the same definitions as
+the https://www.rfc-editor.org/rfc/rfc2119.txt[RFC 2119].
+
+Machine-readable text, such as code, URLs, protocols, etc are
+represented with monospaced font (eg. HTTP method `POST`). We use
+`{}` to delimiter template variables in samples and `#` as a
+comment mark:
+
+....
+# This is a comment
+https://api.example.com/account/{account-id}
+....
+
+[[section-general-references]]
+=== General References
+
+A list of documents and sites we use to produce our guidelines.
+
+[[section-handbooks]]
+==== Handbooks
+
+* https://github.com/basecamp/handbook[Basecamp Handbook]
+* https://about.gitlab.com/handbook/[Gitlab Handbook]
+* http://www.valvesoftware.com/company/Valve_Handbook_LowRes.pdf[Valve
+Handbook]
+
+[[section-development-guidelines]]
+==== Development Guidelines
+
+* http://guidelines.plataformatec.com.br/[Plataformatec]
+* https://www.terraform.io/docs/enterprise/guides/recommended-practices/index.html[Terraform
+Recommended Practices]
+
+==== Architecture Patterns
+
+* https://docs.microsoft.com/en-us/azure/architecture/[Azure
+Architecture Center]
+
+==== Culture Books
+
+* https://www.slideshare.net/reed2001/culture-1798664[Netflix Culture] (deprecated)
+* https://www.dropbox.com/s/u6suqbbk2w1vbwz/Disqus%20Culture%20Book.pdf[Disqus
+Culture]
+* https://github.com/loadsmart/culture[Loadsmart Culture]
